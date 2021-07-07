@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title><%= htmlWebpackPlugin.options.title %></title>
-    
+
 </head>
 <body onload="load()">
   <div style="position: fixed; right: 0; top: .3em;">
@@ -12,6 +12,7 @@
   </div>
   <div id="x-spreadsheet-demo"></div>
   <script>
+    console.log(111)
     function load(){
       const rows10 = { len: 1000 };
       for (let i = 0; i < 1000; i += 1) {
