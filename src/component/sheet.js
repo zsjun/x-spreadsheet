@@ -842,35 +842,40 @@ function sheetInitEvents() {
 
 export default class Sheet {
   constructor(targetEl, data) {
-    // events manager center
+    // 使用发布订阅模式
     this.eventMap = createEventEmitter();
     const { view, showToolbar, showContextmenu } = data.settings;
+
+    // el 表示真实的dom元素
     this.el = h("div", `${cssPrefix}-sheet`);
+    // 创建toolbar
     this.toolbar = new Toolbar(data, view.width, !showToolbar);
+    // 创建打印
     this.print = new Print(data);
     targetEl.children(this.toolbar.el, this.el, this.print.el);
-    // dataproxy object
+    // sheetDataProxy 代理
     this.data = data;
-    // table
+    // 创建表格
     this.tableEl = h("canvas", `${cssPrefix}-table`);
-    // resizer
+    // 创建缩放
     this.rowResizer = new Resizer(false, data.rows.height);
     this.colResizer = new Resizer(true, data.cols.minWidth);
-    // scrollbar
+    // 创建scrollbar
     this.verticalScrollbar = new Scrollbar(true);
     this.horizontalScrollbar = new Scrollbar(false);
-    // editor
+    // 创建editor div对象
     this.editor = new Editor(
       formulas,
       () => this.getTableOffset(),
       data.rows.height
     );
-    // data validation
+    // 创建data检测
     this.modalValidation = new ModalValidation();
-    // contextMenu
+    // 创建右键点击的菜单栏
     this.contextMenu = new ContextMenu(() => this.getRect(), !showContextmenu);
-    // selector
+    // 创建selected，也就是在表格中点击之后的对象
     this.selector = new Selector(data);
+    // 创建遮罩层，通过这里获取到事件
     this.overlayerCEl = h("div", `${cssPrefix}-overlayer-content`).children(
       this.editor.el,
       this.selector.el
@@ -878,9 +883,9 @@ export default class Sheet {
     this.overlayerEl = h("div", `${cssPrefix}-overlayer`).child(
       this.overlayerCEl
     );
-    // sortFilter
+    // 创建排序
     this.sortFilter = new SortFilter();
-    // root element
+    // 把创建的dom元素都插入到this.el中
     this.el.children(
       this.tableEl,
       this.overlayerEl.el,
@@ -892,11 +897,13 @@ export default class Sheet {
       this.modalValidation.el,
       this.sortFilter.el
     );
-    // table
+    // 创建table对象
     this.table = new Table(this.tableEl.el, data);
+    // 初始化事件
     sheetInitEvents.call(this);
+    // 调用表格的render画出表格
     sheetReset.call(this);
-    // init selector [0, 0]
+    // 设置选择的表格的cell的坐标为0，0
     selectorSet.call(this, false, 0, 0);
   }
   // pub-sub modal

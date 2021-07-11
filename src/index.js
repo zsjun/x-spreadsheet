@@ -13,8 +13,9 @@ class Spreadsheet {
 
     // 默认显示bottombar
     this.options = { showBottomBar: true, ...options };
-    // sheetIndex 类似excel下面的几个表格
+    // sheetIndex 类似excel下面的几个表格的索引
     this.sheetIndex = 1;
+    // 所有的数据，也就是每个sheet在数组中一个索引
     this.datas = [];
     if (typeof selectors === "string") {
       // 获取容器
@@ -44,7 +45,7 @@ class Spreadsheet {
     // 功能 添加多表
     // @param name string 名称
     // @param active boolean 默认为 true
-    // this.data 表示一张表的所有数据表示
+    // this.data 表示一张表的所有数据代理
     this.data = this.addSheet();
     // h就是创建一个对象，该对象的属性el表示创建的dom元素
     const rootEl = h("div", `${cssPrefix}`).on("contextmenu", (evt) =>
@@ -61,18 +62,18 @@ class Spreadsheet {
 
   addSheet(name, active = true) {
     const sheetName = name || `sheet${this.sheetIndex}`;
-    // 创建了整个数据的代理类，
-    const d = new DataProxy(sheetName, this.options);
-    d.change = (...args) => {
+    // 创建了整个数据的代理类，类似于监听整个数据
+    const sheetDataProxy = new DataProxy(sheetName, this.options);
+    sheetDataProxy.change = (...args) => {
       this.sheet.trigger("change", ...args);
     };
-    this.datas.push(d);
+    this.datas.push(sheetDataProxy);
     // console.log('d:', n, d, this.datas);
     if (this.bottombar !== null) {
       this.bottombar.addItem(sheetName, active);
     }
     this.sheetIndex += 1;
-    return d;
+    return sheetDataProxy;
   }
 
   deleteSheet() {
@@ -86,16 +87,17 @@ class Spreadsheet {
   }
 
   loadData(data) {
-    const ds = Array.isArray(data) ? data : [data];
+    const dataSheets = Array.isArray(data) ? data : [data];
     if (this.bottombar !== null) {
       this.bottombar.clear();
     }
     this.datas = [];
-    if (ds.length > 0) {
-      for (let i = 0; i < ds.length; i += 1) {
-        const it = ds[i];
-        const nd = this.addSheet(it.name, i === 0);
-        nd.setData(it);
+    if (dataSheets.length > 0) {
+      for (let i = 0; i < dataSheets.length; i++) {
+        const dataSheet = dataSheets[i];
+        // 返回一个dataSheetProxy
+        const nd = this.addSheet(dataSheet.name, i === 0);
+        nd.setData(dataSheet);
         if (i === 0) {
           this.sheet.resetData(nd);
         }
