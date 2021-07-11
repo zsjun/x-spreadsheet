@@ -7,7 +7,7 @@
 
 </head>
 <body onload="load()">
-  <div style="position: fixed; right: 0; top: .3em;">
+  <!-- <div style="position: fixed; right: 0; top: .3em;"> -->
  <!-- <iframe src="https://ghbtns.com/github-btn.html?user=myliang&repo=x-spreadsheet&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe> -->
 </div>
   <div id="x-spreadsheet-demo"></div>
@@ -36,13 +36,16 @@
         },
         2: {
           cells: {
+            // 这里的style： 0 表示data中的styles的第一个元素
             0: { text: 'render', style: 0 },
             1: { text: 'Hello' },
+            // 
             2: { text: 'haha', merge: [1, 1] },
           }
         },
         8: {
           cells: {
+            // 这里的style： 0 表示data中的styles的第一个元素
             8: { text: 'border test', style: 0 },
           }
         }
@@ -59,10 +62,13 @@
         showGrid: true,
         showBottomBar: true,
         col: {
-          len: 26,
+          len: 50,
           width: 100,
-          indexWidth: 60,
-          minWidth: 60,
+          // indexWidth: 60,
+          minWidth: 20,
+        },
+        row: {
+          len: 20,
         },
         extendToolbar: {
           left: [
