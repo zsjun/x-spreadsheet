@@ -13,21 +13,27 @@
   <div id="x-spreadsheet-demo"></div>
   <script>
     function load(){
-      const rows10 = { len: 1000 };
-      for (let i = 0; i < 1000; i += 1) {
-        rows10[i] = {
-          cells: {
-            0: { text: 'A-' + i },
-            1: { text: 'B-' + i },
-            2: { text: 'C-' + i },
-            3: { text: 'D-' + i },
-            4: { text: 'E-' + i },
-            5: { text: 'F-' + i },
-          }
-        };
-      }
+      // const rows10 = { len: 1000 };
+      // for (let i = 0; i < 1000; i += 1) {
+      //   rows10[i] = {
+      //     cells: {
+      //       0: { text: 'A-' + i },
+      //       1: { text: 'B-' + i },
+      //       2: { text: 'C-' + i },
+      //       3: { text: 'D-' + i },
+      //       4: { text: 'E-' + i },
+      //       5: { text: 'F-' + i },
+      //     }
+      //   };
+      // }
       const rows = {
         len: 80,
+        0: {
+          cells: {
+            0: {text: "化合物编号", style: 1},
+            1: {text: "lgd"}
+          }
+        },
         1: {
           cells: {
             0: { text: 'testingtesttestetst' },
@@ -39,8 +45,13 @@
             // 这里的style： 0 表示data中的styles的第一个元素
             0: { text: 'render', style: 0 },
             1: { text: 'Hello' },
-            // 
-            2: { text: 'haha', merge: [1, 1] },
+            // 表示从mergers中的起点向下和向右扩展几个，这里表示渲染的时候
+            2: { text: 'haha', merge: [2, 2] },
+          }
+        },
+        6: {
+          cells: {
+            2: {text: "111", merge:[1,0]}
           }
         },
         8: {
@@ -62,7 +73,7 @@
         showGrid: true,
         showBottomBar: true,
         col: {
-          len: 50,
+          len: 26,
           width: 100,
           // indexWidth: 60,
           minWidth: 20,
@@ -92,7 +103,8 @@
         }
       })
         .loadData([{
-          freeze: 'B3',
+          // 某行某列
+          freeze: "1B",
           styles: [
             {
               bgcolor: '#f4f5f8',
@@ -105,18 +117,32 @@
                 left: ['thin', '#0366d6'],
               },
             },
+            {
+              bgcolor: '#f4f5f8',
+              textwrap: true,
+              color: '#900b09',
+              height: "40px",
+              fontSize:"20px",
+              // border: {
+              //   top: ['thin', '#0366d6'],
+              //   bottom: ['thin', '#0366d6'],
+              //   right: ['thin', '#0366d6'],
+              //   left: ['thin', '#0366d6'],
+              // },
+            },
           ],
           merges: [
-            'C3:D4',
+            'C3:E5',
+            'C7:C8'
           ],
           cols: {
-            len: 10,
+            len: 60,
             2: { width: 200 },
           },
           rows,
-        }, { name: 'sheet-test', rows: rows10 }]).change((cdata) => {
+        }]).change((cdata) => {
           // console.log(cdata);
-          console.log('>>>', xs.getData());
+          console.log('1223', xs.getData());
         });
 
       xs.on('cells-selected', (cell, range) => {
@@ -125,7 +151,10 @@
         }).on('cell-edited', (text, ri, ci) => {
           // console.log('text:', text, ', ri: ', ri, ', ci:', ci);
         });
-
+        // xs.sheet.data.setRowHeight(0,"50px")
+        // xs.reRender();
+      // xs.freeze(5,2)
+      // xs.sheet.freeze("5", "2")
       // x_spreadsheet.locale('zh-cn');
       // setTimeout(() => {
       //   // xs.loadData([{ rows }]);
