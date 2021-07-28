@@ -796,6 +796,7 @@ function sheetInitEvents() {
           evt.preventDefault();
           break;
         case 40: // down
+          console.log(1122);
           selectorMove.call(this, shiftKey, "down");
           evt.preventDefault();
           break;

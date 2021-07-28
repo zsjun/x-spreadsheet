@@ -180,7 +180,9 @@ export default class Editor {
         (this.textEl = h("textarea", "")
           .on("input", (evt) => inputEventHandler.call(this, evt))
           .on("paste.stop", () => {})
-          .on("keydown", (evt) => keydownEventHandler.call(this, evt))),
+          .on("keydown", (evt) => {
+            return keydownEventHandler.call(this, evt);
+          })),
         (this.textlineEl = h("div", "textline")),
         this.suggest.el,
         this.datepicker.el
