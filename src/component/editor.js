@@ -181,11 +181,14 @@ export default class Editor {
       .children(
         (this.textEl = h("textarea", "")
           .on("input", (evt) => inputEventHandler.call(this, evt))
+          // stop 是阻止冒泡
           .on("paste.stop", () => {})
+          // 阻止冒泡
           .on("keydown", (evt) => {
             return keydownEventHandler.call(this, evt);
           })),
         (this.textlineEl = h("div", "textline")),
+        // 这里应该是建议的，比如你输入了=,就会提示你是否使用sum等函数
         this.suggest.el,
         this.datepicker.el
       )
