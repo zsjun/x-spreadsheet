@@ -111,7 +111,9 @@ function inputEventHandler(evt) {
 function setTextareaRange(position) {
   const { el } = this.textEl;
   setTimeout(() => {
-    el.focus();
+    //  el.focus();
+    // el.setSelectionRange(position, position);
+    console.log(el);
     el.setSelectionRange(position, position);
   }, 0);
 }
@@ -189,6 +191,20 @@ export default class Editor {
       )
       .on("mousemove.stop", () => {})
       .on("mousedown.stop", () => {});
+
+    // this.areaEl = h("div", `${cssPrefix}-editor-area`)
+    //   .children(
+    //     (this.textEl = h("select", "")
+    //       .children(h("option", "dog"), h("option", "cat"))
+    //       .on("keydown", (evt) => {
+    //         return keydownEventHandler.call(this, evt);
+    //       })),
+    //     (this.textlineEl = h("div", "textline")),
+    //     this.suggest.el,
+    //     this.datepicker.el
+    //   )
+    //   .on("mousemove.stop", () => {})
+    //   .on("mousedown.stop", () => {});
     this.el = h("div", `${cssPrefix}-editor`).child(this.areaEl).hide();
     this.suggest.bindInputEvents(this.textEl);
 
