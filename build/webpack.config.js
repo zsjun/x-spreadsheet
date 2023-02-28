@@ -9,23 +9,35 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"],
-          },
-        },
-        include: [resolve("src"), resolve("test")],
-      },
+      // {
+      //   test: /\.js$/,
+      //   use: {
+      //     loader: "babel-loader",
+      //     options: {
+      //       presets: ["@babel/preset-env"],
+      //     },
+      //   },
+      //   include: [resolve("src"), resolve("test")],
+      // },
       {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "style-loader", "css-loader"],
       },
+      // {
+      //   test: /\.scss$/,
+      //   use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
+      // },
       {
-        test: /\.less$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // MiniCssExtractPlugin.loader,
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          "sass-loader",
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
